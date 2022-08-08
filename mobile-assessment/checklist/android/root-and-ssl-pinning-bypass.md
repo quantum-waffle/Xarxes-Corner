@@ -2,24 +2,19 @@
 
 ```
 # Use installed ADB or NoxADB located in Nox's bin
-adb push ~/Downloads/cacert.cer /data/local/tmp/cert-der.crt
-adb push ~/Downloads/frida-server /data/local/tmp
-adb shell chmod 777 /data/local/tmp/frida-server
-adb shell /data/local/tmp/frida-server &
-.\adb.exe shell /data/local/tmp/frida-server
+.\nox_adb.exe push ~/Downloads/cacert.cer /data/local/tmp/cert-der.crt
+.\nox_adb.exe push ~/Downloads/frida-server /data/local/tmp
+.\nox_adb.exe shell chmod 777 /data/local/tmp/frida-server
+.\nox_adb.exe shell "/data/local/tmp/frida-server &"
+
+# Get package name
+.\nox_adb.exe shell pm list packages
 
 # activate Frida venv as per Frida's documentation, and in a path
 # without spaces. 
-frida.exe -U
-frida.exe -U -f com.monedero.telered -l .\root_bypass.js --no-pause
-# use -p instead of -f if using PID, but app has to be started by 
-# frida to be bypassed
-# frida.exe -U -p 3069 -l .\SSLbypass2.js --no-pause
-
-# If using Nox, use .\nox_adb.exe
-
-# Run Rootbypass in a separate pane and the attach the SSLpinning bypass to the 
-# running process. Make sure Burp is listening in the IP visible to Nox.
+frida-ps -U # Connects device
+frida-ps -U -f com.monedero.telered -l .\root_bypass.js --no-pause
+frida-ps -U -p 3069 -l .\SSLbypass2.js --no-pause # -p for process and -f for package name
 ```
 
 {% tabs %}
